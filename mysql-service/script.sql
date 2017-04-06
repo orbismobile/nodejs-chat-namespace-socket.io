@@ -1,0 +1,107 @@
+CREATE TABLE USER (
+  id_user   INT(10)     NOT NULL AUTO_INCREMENT,
+  user_name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id_user)
+)
+  ENGINE = INNODB;
+
+
+CREATE TABLE ROOM (
+  id_room   INT(10)     NOT NULL AUTO_INCREMENT,
+  room_name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id_room)
+)
+  ENGINE = INNODB;
+
+
+CREATE TABLE USER_FRIEND (
+  id_user   INT(10) NOT NULL,
+  id_friend INT(10) NOT NULL,
+  friend_name VARCHAR(50) NOT NULL
+)
+  ENGINE = INNODB;
+
+CREATE TABLE ROOM_USER (
+  id_room INT(10) NOT NULL,
+  id_user INT(10) NOT NULL
+)
+  ENGINE = INNODB;
+
+
+ALTER TABLE ROOM_USER
+  ADD INDEX FKUSER816609 (id_user),
+  ADD CONSTRAINT FKUSER816609
+FOREIGN KEY (id_user) REFERENCES USER (id_user);
+
+ALTER TABLE ROOM_USER
+  ADD INDEX FKUSER816610 (id_room),
+  ADD CONSTRAINT FKUSER816610
+FOREIGN KEY (id_room) REFERENCES ROOM (id_room);
+
+
+DROP TABLE USER;
+
+
+INSERT INTO USER (user_name) VALUES ('carlos');
+INSERT INTO USER (user_name) VALUES ('ronaldo');
+INSERT INTO USER (user_name) VALUES ('eduardo');
+INSERT INTO USER (user_name) VALUES ('jose');
+SELECT *
+FROM USER;
+
+INSERT INTO ROOM (room_name) VALUES ('carlosRoom');
+INSERT INTO ROOM (room_name) VALUES ('ronaldoRoom');
+INSERT INTO ROOM (room_name) VALUES ('eduardoRoom');
+INSERT INTO ROOM (room_name) VALUES ('joseRoom');
+SELECT *
+FROM ROOM;
+
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (1, 1);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (2, 2);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (3, 3);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (4, 4);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (2, 1);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (3, 1);
+INSERT INTO ROOM_USER (id_room, id_user) VALUES (4, 1);
+
+
+
+SELECT *
+FROM ROOM_USER;
+
+INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 2, 'ronaldo');
+INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 3, 'eduardo');
+INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 4, 'jose');
+
+SELECT * FROM USER_FRIEND;
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE USER;
+TRUNCATE TABLE ROOM;
+TRUNCATE TABLE ROOM_USER;
+SET FOREIGN_KEY_CHECKS = 1;
+
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE USER;
+DROP TABLE ROOM;
+DROP TABLE ROOM_USER;
+DROP TABLE USER_FRIEND;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+///room
+
+SELECT ROOM_USER.id_room, ROOM.room_name
+FROM ROOM_USER
+  INNER JOIN ROOM ON ROOM_USER.id_room = ROOM.id_room
+WHERE ROOM_USER.id_user = 1 AND (ROOM_USER.id_room != 1);
+
+
+///friends
+SELECT USER_FRIEND.id_friend, USER_FRIEND.friend_name
+FROM USER_FRIEND
+WHERE USER_FRIEND.id_user = 1;
+
+
+
+
