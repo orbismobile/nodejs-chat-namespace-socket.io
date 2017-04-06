@@ -37,6 +37,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+chat-service/api/package.json
+docker-compose.yml
 
 # Typescript v1 declaration files
 typings/

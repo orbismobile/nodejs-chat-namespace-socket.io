@@ -1,0 +1,14 @@
+version: '2'
+services:
+  chat:
+    build: ./chat-service
+    ports:
+      - "8181:8181"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+  db:
+    build: ./mysql-service
+    ports:
+      - "3306:3306"
