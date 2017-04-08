@@ -60,6 +60,27 @@ INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 2, 'ronaldo')
 INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 3, 'eduardo');
 INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 4, 'jose');
 
+/**********************************CRUD FOR USER*********************************/
+#INSERT NEW USER
+DROP PROCEDURE IF EXISTS sp_PostUser;
+DELIMITER //
+CREATE PROCEDURE sp_PostUser(IN _userName VARCHAR(50))
+  BEGIN
+    INSERT INTO USER (user_name)
+    VALUES (_userName);
+  END //
+DELIMITER ;
+
+#GET USER
+DROP PROCEDURE IF EXISTS sp_GetUser;
+DELIMITER //
+CREATE PROCEDURE sp_GetUser()
+  BEGIN
+    SELECT *
+    FROM USER;
+  END //
+DELIMITER ;
+
 /*
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE USER;

@@ -3,7 +3,7 @@ services:
   chat:
     build: ./chat-service
     ports:
-      - "8181:8181"
+      - "8123:8123"
     depends_on:
       - db
     environment:
