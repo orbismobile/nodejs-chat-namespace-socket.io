@@ -2,9 +2,34 @@ CREATE TABLE CHAT_DEMO.USER
 (
   id_user INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(50) NOT NULL
+);
+CREATE TABLE CHAT_DEMO.ROOM
+(
+  id_room INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  room_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE CHAT_DEMO.FRIEND
+(
+  id_friend INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  friend_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE CHAT_DEMO.USER_FRIEND
+(
+  id_user INT NOT NULL,
+  id_friend INT NOT NULL,
+  CONSTRAINT USER_FRIEND_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user),
+  CONSTRAINT USER_FRIEND_FRIEND_id_friend_fk FOREIGN KEY (id_friend) REFERENCES FRIEND (id_friend)
+);
+
+CREATE TABLE CHAT_DEMO.ROOM_USER
+(
+  id_room INT NOT NULL,
+  id_user INT NOT NULL,
+  CONSTRAINT ROOM_USER_ROOM_id_room_fk FOREIGN KEY (id_room) REFERENCES ROOM (id_room),
+  CONSTRAINT ROOM_USER_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user)
 )
-
-
 
 
 
@@ -104,25 +129,16 @@ CREATE TABLE CHAT_DEMO.USER
 
 INSERT INTO USER (user_name) VALUES ('carlos');
 INSERT INTO USER (user_name) VALUES ('ronaldo');
-INSERT INTO USER (user_name) VALUES ('eduardo');
-INSERT INTO USER (user_name) VALUES ('jose');
 
-INSERT INTO ROOM (room_name) VALUES ('carlosRoom');
-INSERT INTO ROOM (room_name) VALUES ('ronaldoRoom');
-INSERT INTO ROOM (room_name) VALUES ('eduardoRoom');
-INSERT INTO ROOM (room_name) VALUES ('joseRoom');
+INSERT INTO FRIEND (friend_name) VALUES ('eduardo');
+INSERT INTO FRIEND (friend_name) VALUES ('wallo');
+INSERT INTO FRIEND (friend_name) VALUES ('alexis');
 
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (1, 1);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (2, 2);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (3, 3);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (4, 4);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (2, 1);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (3, 1);
-INSERT INTO ROOM_USER (id_room, id_user) VALUES (4, 1);
-
-INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 2, 'ronaldo');
-INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 3, 'eduardo');
-INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 4, 'jose');
+INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 1);
+INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 2);
+INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 3);
+INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(2, 1);
+INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(2, 2);
 
 /**********************************CRUD FOR USER*********************************/
 
@@ -145,7 +161,29 @@ CREATE PROCEDURE sp_GetUser()
     FROM USER;
   END //
 DELIMITER ;
+/**********************************CRUD FOR FRIEND*********************************/
 
+#GET FRIEND BY USERID
+DROP PROCEDURE IF EXISTS sp_GetFriendByUserId;
+DELIMITER //
+CREATE PROCEDURE sp_GetFriendByUserId(IN _user_id INT)
+  BEGIN
+    SELECT USER_FRIEND.id_user, FRIEND.friend_name
+    FROM USER_FRIEND
+      INNER JOIN FRIEND ON USER_FRIEND.id_friend = FRIEND.id_friend
+    WHERE USER_FRIEND.id_user = _user_id;
+  END //
+DELIMITER ;
+
+#INSERT NEW FRIEND
+DROP PROCEDURE IF EXISTS sp_PostFriend;
+DELIMITER //
+CREATE PROCEDURE sp_PostFriend(IN _userName VARCHAR(50))
+  BEGIN
+    INSERT INTO FRIEND (user_name)
+    VALUES (_userName);
+  END //
+DELIMITER ;
 
 /*
 SET FOREIGN_KEY_CHECKS = 0;
