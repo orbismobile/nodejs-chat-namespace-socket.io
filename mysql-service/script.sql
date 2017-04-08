@@ -1,42 +1,106 @@
-CREATE TABLE USER (
-  id_user   INT(10)     NOT NULL AUTO_INCREMENT,
-  user_name VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id_user)
+CREATE TABLE CHAT_DEMO.USER
+(
+  id_user INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  user_name VARCHAR(50) NOT NULL
 )
-  ENGINE = INNODB;
 
 
-CREATE TABLE ROOM (
-  id_room   INT(10)     NOT NULL AUTO_INCREMENT,
-  room_name VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id_room)
-)
-  ENGINE = INNODB;
 
 
-CREATE TABLE USER_FRIEND (
-  id_user   INT(10) NOT NULL,
-  id_friend INT(10) NOT NULL,
-  friend_name VARCHAR(50) NOT NULL
-)
-  ENGINE = INNODB;
-
-CREATE TABLE ROOM_USER (
-  id_room INT(10) NOT NULL,
-  id_user INT(10) NOT NULL
-)
-  ENGINE = INNODB;
 
 
-ALTER TABLE ROOM_USER
-  ADD INDEX FKUSER816609 (id_user),
-  ADD CONSTRAINT FKUSER816609
-FOREIGN KEY (id_user) REFERENCES USER (id_user);
 
-ALTER TABLE ROOM_USER
-  ADD INDEX FKUSER816610 (id_room),
-  ADD CONSTRAINT FKUSER816610
-FOREIGN KEY (id_room) REFERENCES ROOM (id_room);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# CREATE TABLE USER (
+#   id_user   INT(10)     NOT NULL AUTO_INCREMENT,
+#   user_name VARCHAR(50) NOT NULL,
+#   PRIMARY KEY (id_user)
+# )
+#   ENGINE = INNODB;
+#
+#
+# CREATE TABLE ROOM (
+#   id_room   INT(10)     NOT NULL AUTO_INCREMENT,
+#   room_name VARCHAR(50) NOT NULL,
+#   PRIMARY KEY (id_room)
+# )
+#   ENGINE = INNODB;
+#
+#
+# CREATE TABLE USER_FRIEND (
+#   id_user   INT(10) NOT NULL,
+#   id_friend INT(10) NOT NULL,
+#   friend_name VARCHAR(50) NOT NULL
+# )
+#   ENGINE = INNODB;
+#
+# CREATE TABLE ROOM_USER (
+#   id_room INT(10) NOT NULL,
+#   id_user INT(10) NOT NULL
+# )
+#   ENGINE = INNODB;
+#
+# ALTER TABLE ROOM_USER
+#   ADD INDEX FKUSER816609 (id_user),
+#   ADD CONSTRAINT FKUSER816609
+# FOREIGN KEY (id_user) REFERENCES USER (id_user);
+#
+# ALTER TABLE ROOM_USER
+#   ADD INDEX FKUSER816610 (id_room),
+#   ADD CONSTRAINT FKUSER816610
+# FOREIGN KEY (id_room) REFERENCES ROOM (id_room);
+#
+# CREATE TABLE CHAT_DEMO.FRIEND
+# (
+#   id_friend INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+#   friend_name VARCHAR(50) NOT NULL
+# );
+#
+# CREATE TABLE CHAT_DEMO.USER_FRIEND
+# (
+#   id_user INT(11) NOT NULL,
+#   id_friend INT(11) NOT NULL,
+#   CONSTRAINT USER_FRIEND_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user),
+#   CONSTRAINT USER_FRIEND_FRIEND_id_friend_fk FOREIGN KEY (id_friend) REFERENCES FRIEND (id_friend)
+# );
+# CREATE INDEX USER_FRIEND_FRIEND_id_friend_fk ON CHAT_DEMO.USER_FRIEND (id_friend);
+# CREATE INDEX USER_FRIEND_USER_id_user_fk ON CHAT_DEMO.USER_FRIEND (id_user);
+
 
 INSERT INTO USER (user_name) VALUES ('carlos');
 INSERT INTO USER (user_name) VALUES ('ronaldo');
@@ -61,6 +125,7 @@ INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 3, 'eduardo')
 INSERT INTO USER_FRIEND(id_user, id_friend, friend_name) VALUES(1, 4, 'jose');
 
 /**********************************CRUD FOR USER*********************************/
+
 #INSERT NEW USER
 DROP PROCEDURE IF EXISTS sp_PostUser;
 DELIMITER //
@@ -80,6 +145,7 @@ CREATE PROCEDURE sp_GetUser()
     FROM USER;
   END //
 DELIMITER ;
+
 
 /*
 SET FOREIGN_KEY_CHECKS = 0;
