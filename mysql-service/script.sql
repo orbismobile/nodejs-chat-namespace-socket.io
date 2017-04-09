@@ -1,21 +1,21 @@
-CREATE TABLE CHAT_DEMO.USER
+CREATE TABLE USER
 (
   id_user INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(50) NOT NULL
 );
-CREATE TABLE CHAT_DEMO.ROOM
+CREATE TABLE ROOM
 (
   id_room INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   room_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE CHAT_DEMO.FRIEND
+CREATE TABLE FRIEND
 (
   id_friend INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   friend_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE CHAT_DEMO.USER_FRIEND
+CREATE TABLE USER_FRIEND
 (
   id_user INT NOT NULL,
   id_friend INT NOT NULL,
@@ -23,108 +23,13 @@ CREATE TABLE CHAT_DEMO.USER_FRIEND
   CONSTRAINT USER_FRIEND_FRIEND_id_friend_fk FOREIGN KEY (id_friend) REFERENCES FRIEND (id_friend)
 );
 
-CREATE TABLE CHAT_DEMO.ROOM_USER
+CREATE TABLE ROOM_USER
 (
   id_room INT NOT NULL,
   id_user INT NOT NULL,
   CONSTRAINT ROOM_USER_ROOM_id_room_fk FOREIGN KEY (id_room) REFERENCES ROOM (id_room),
   CONSTRAINT ROOM_USER_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user)
-)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# CREATE TABLE USER (
-#   id_user   INT(10)     NOT NULL AUTO_INCREMENT,
-#   user_name VARCHAR(50) NOT NULL,
-#   PRIMARY KEY (id_user)
-# )
-#   ENGINE = INNODB;
-#
-#
-# CREATE TABLE ROOM (
-#   id_room   INT(10)     NOT NULL AUTO_INCREMENT,
-#   room_name VARCHAR(50) NOT NULL,
-#   PRIMARY KEY (id_room)
-# )
-#   ENGINE = INNODB;
-#
-#
-# CREATE TABLE USER_FRIEND (
-#   id_user   INT(10) NOT NULL,
-#   id_friend INT(10) NOT NULL,
-#   friend_name VARCHAR(50) NOT NULL
-# )
-#   ENGINE = INNODB;
-#
-# CREATE TABLE ROOM_USER (
-#   id_room INT(10) NOT NULL,
-#   id_user INT(10) NOT NULL
-# )
-#   ENGINE = INNODB;
-#
-# ALTER TABLE ROOM_USER
-#   ADD INDEX FKUSER816609 (id_user),
-#   ADD CONSTRAINT FKUSER816609
-# FOREIGN KEY (id_user) REFERENCES USER (id_user);
-#
-# ALTER TABLE ROOM_USER
-#   ADD INDEX FKUSER816610 (id_room),
-#   ADD CONSTRAINT FKUSER816610
-# FOREIGN KEY (id_room) REFERENCES ROOM (id_room);
-#
-# CREATE TABLE CHAT_DEMO.FRIEND
-# (
-#   id_friend INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-#   friend_name VARCHAR(50) NOT NULL
-# );
-#
-# CREATE TABLE CHAT_DEMO.USER_FRIEND
-# (
-#   id_user INT(11) NOT NULL,
-#   id_friend INT(11) NOT NULL,
-#   CONSTRAINT USER_FRIEND_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user),
-#   CONSTRAINT USER_FRIEND_FRIEND_id_friend_fk FOREIGN KEY (id_friend) REFERENCES FRIEND (id_friend)
-# );
-# CREATE INDEX USER_FRIEND_FRIEND_id_friend_fk ON CHAT_DEMO.USER_FRIEND (id_friend);
-# CREATE INDEX USER_FRIEND_USER_id_user_fk ON CHAT_DEMO.USER_FRIEND (id_user);
+);
 
 
 INSERT INTO USER (user_name) VALUES ('carlos');
@@ -161,27 +66,49 @@ CREATE PROCEDURE sp_GetUser()
     FROM USER;
   END //
 DELIMITER ;
-/**********************************CRUD FOR FRIEND*********************************/
 
 #GET FRIEND BY USERID
-DROP PROCEDURE IF EXISTS sp_GetFriendByUserId;
+DROP PROCEDURE IF EXISTS sp_GetUserById;
 DELIMITER //
-CREATE PROCEDURE sp_GetFriendByUserId(IN _user_id INT)
+CREATE PROCEDURE sp_GetUserById(IN _userId INT)
+  BEGIN
+    SELECT id_user, user_name
+    FROM USER
+    WHERE id_user = _userId;
+  END //
+DELIMITER ;
+
+#GET FRIEND BY USERID
+DROP PROCEDURE IF EXISTS sp_GetFriendsByUserId;
+DELIMITER //
+CREATE PROCEDURE sp_GetFriendsByUserId(IN _userId INT)
   BEGIN
     SELECT USER_FRIEND.id_user, FRIEND.friend_name
     FROM USER_FRIEND
       INNER JOIN FRIEND ON USER_FRIEND.id_friend = FRIEND.id_friend
-    WHERE USER_FRIEND.id_user = _user_id;
+    WHERE USER_FRIEND.id_user = _userId;
   END //
 DELIMITER ;
+
+
+/**********************************CRUD FOR FRIEND*********************************/
 
 #INSERT NEW FRIEND
 DROP PROCEDURE IF EXISTS sp_PostFriend;
 DELIMITER //
-CREATE PROCEDURE sp_PostFriend(IN _userName VARCHAR(50))
+CREATE PROCEDURE sp_PostFriend(IN _friendName VARCHAR(50))
   BEGIN
-    INSERT INTO FRIEND (user_name)
-    VALUES (_userName);
+    INSERT INTO FRIEND (friend_name)
+    VALUES (_friendName);
+  END //
+DELIMITER ;
+
+#GET FRIEND
+DROP PROCEDURE IF EXISTS sp_GetFriend;
+DELIMITER //
+CREATE PROCEDURE sp_GetFriend()
+  BEGIN
+    SELECT * FROM FRIEND;
   END //
 DELIMITER ;
 

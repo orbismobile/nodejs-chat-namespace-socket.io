@@ -6,7 +6,12 @@
 
 module.exports = (app, userEntity)=> {
     app.get('/friend', (req, res, next)=> {
-        userEntity.getUser().then((objectResolved)=> {
+        userEntity.getFriend().then((objectResolved)=> {
+            res.status(200).send(objectResolved);
+        }).catch(next);
+    });
+    app.post('/friend', (req, res, next)=> {
+        userEntity.addFriend(req.body.friendName).then((objectResolved)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });

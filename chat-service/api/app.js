@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const handleConnection = require("./config/handleConnection");
 
 const UserEntity = require("./entity/UserEntity");
+const FriendEntity = require("./entity/FriendEntity");
 const io = new Server(httpServer, {serverClient: false});
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,7 +23,9 @@ handleConnection.connect(config).then((connectionObject)=> {
     });
 
     let userEntity = UserEntity.createUser(connectionObject);
+    let friendEntity = FriendEntity.createFriend(connectionObject);
     require("./routes/user")(app, userEntity);
+    require("./routes/friend")(app, friendEntity);
 
     io.sockets.on('connection', (socket)=> {
         console.log("USER SORT CONNECTED");

@@ -10,5 +10,20 @@ module.exports = (app, userEntity)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });
+    app.get('/user/:userId', (req, res, next)=> {
+        userEntity.getUserById(req.params.userId).then((objectResolved)=> {
+            res.status(200).send(objectResolved);
+        }).catch(next);
+    });
+    app.get('/user/:userId/friends', (req, res, next)=> {
+        userEntity.getFriendSByUserId(req.params.userId).then((objectResolved)=> {
+            res.status(200).send(objectResolved);
+        }).catch(next);
+    });
+    app.post('/user', (req, res, next)=> {
+        userEntity.addUser(req.body.userName).then((objectResolved)=> {
+            res.status(200).send(objectResolved);
+        }).catch(next);
+    });
 };
 
