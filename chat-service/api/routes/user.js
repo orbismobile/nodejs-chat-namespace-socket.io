@@ -10,8 +10,8 @@ module.exports = (app, userEntity)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });
-    app.get('/user/:userId', (req, res, next)=> {
-        userEntity.getUserById(req.params.userId).then((objectResolved)=> {
+    app.get('/user/:userNickname', (req, res, next)=> {
+        userEntity.getUserByNickname(req.params.userNickname).then((objectResolved)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });

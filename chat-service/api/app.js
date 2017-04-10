@@ -29,6 +29,12 @@ handleConnection.connect(config).then((connectionObject)=> {
 
     io.sockets.on('connection', (socket)=> {
         console.log("USER SORT CONNECTED");
+        socket.on('joinNewRoom', function (userName, roomOfUser) {
+            socket.userName = userName;
+            socket.roomOfUser = roomOfUser;
+            console.log(socket.userName + " is joined to "+socket.roomOfUser);
+            socket.join(socket.roomOfUser);
+        });
     });
 }).catch((errorMessage)=> {
     console.log("no se puede iniciar el proyecto " + errorMessage);

@@ -16,8 +16,6 @@ class FriendEntity {
 
             this.connection.query('CALL sp_PostFriend(?);', [friendName], function (error, result, fields) {
                 if (error) throw error;
-
-                console.log(result.affectedRows);
                 if (result.affectedRows == 1) {
                     resolve({
                         status: "SUCCESS",
@@ -49,7 +47,7 @@ class FriendEntity {
                     resolve({
                         status: "SUCCESS",
                         message: "Friend was found",
-                        products: friendResponse
+                        data: friendResponse
                     });
                 }
             });

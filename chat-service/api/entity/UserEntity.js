@@ -47,16 +47,16 @@ class UserEntity {
                     resolve({
                         status: "SUCCESS",
                         message: "User was found",
-                        products: userResponse
+                        data: userResponse
                     });
                 }
             });
         });
     }
 
-    getUserById(userId) {
+    getUserByNickname(userNickname) {
         return new Promise((resolve, reject)=> {
-            this.connection.query('CALL sp_GetUserById(?);', [userId], function (err, rows, fields) {
+            this.connection.query('CALL sp_GetUserByNickName(?);', [userNickname], function (err, rows, fields) {
                 if (err) throw err;
                 var userResponse = rows[0];
                 if (rows[0].length == 0) {
@@ -68,7 +68,7 @@ class UserEntity {
                     resolve({
                         status: "SUCCESS",
                         message: "User was found",
-                        user: userResponse
+                        data: userResponse
                     });
                 }
             });
@@ -89,7 +89,7 @@ class UserEntity {
                     resolve({
                         status: "SUCCESS",
                         message: "Friend were found",
-                        friends: friendResponse
+                        data: friendResponse
                     });
                 }
             });

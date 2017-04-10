@@ -68,13 +68,13 @@ CREATE PROCEDURE sp_GetUser()
 DELIMITER ;
 
 #GET FRIEND BY USERID
-DROP PROCEDURE IF EXISTS sp_GetUserById;
+DROP PROCEDURE IF EXISTS sp_GetUserByNickname;
 DELIMITER //
-CREATE PROCEDURE sp_GetUserById(IN _userId INT)
+CREATE PROCEDURE sp_GetUserByNickname(IN _userName VARCHAR(50))
   BEGIN
     SELECT id_user, user_name
     FROM USER
-    WHERE id_user = _userId;
+    WHERE user_name = _userName;
   END //
 DELIMITER ;
 
