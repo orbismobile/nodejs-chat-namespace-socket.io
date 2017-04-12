@@ -63,8 +63,6 @@ class UserEntity {
 
     getUser() {
         return new Promise((resolve, reject)=> {
-
-            console.log("veamos get " + this.connection);
             this.connection.query('CALL sp_GetUser();', function (err, rows, fields) {
                 if (err) throw err;
 
@@ -118,6 +116,8 @@ class UserEntity {
                         message: "No existe cliente en Base de Datos"
                     });
                 } else {
+                    friendResponse.push({friendId: -1, userName : "mundiiii"})
+
                     resolve({
                         status: "SUCCESS",
                         message: "Friend were found",

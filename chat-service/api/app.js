@@ -27,9 +27,26 @@ handleConnection.connect(config).then((connectionObject)=> {
     require("./routes/user")(app, userEntity);
     require("./routes/friend")(app, friendEntity);
 
+
+    /**
+     * @io.sockets Initial Default Namespace
+     */
     io.sockets.on('connection', (socket)=> {
         console.log("USER SORT CONNECTED");
-        socket.on('joinNewRoom', function (userName, roomOfUser) {
+
+        /**
+         *  @hi An event called 'hi'
+         *  @message Emmit a message to everyone in this NameSpace
+         */
+        io.sockets.emit('onDNConnect',"someone has connected");
+
+        socket.on('onMessageToDNEmitted', function (userName) {
+            socket.userName = userName;
+            io.sockets.emit('onDNConnect',userName + " has connected");
+        });
+
+
+        /*socket.on('joinNewRoom', function (userName, roomOfUser) {
             socket.userName = userName;
             socket.roomOfUser = roomOfUser;
             console.log(socket.userName + " is joined to "+socket.roomOfUser);
@@ -45,7 +62,7 @@ handleConnection.connect(config).then((connectionObject)=> {
                 userName: socket.userName,
                 message: message
             });
-        });
+        });*/
 
     });
 }).catch((errorMessage)=> {

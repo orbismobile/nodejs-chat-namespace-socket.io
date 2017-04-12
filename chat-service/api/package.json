@@ -4,6 +4,7 @@
   "description": "a sample demo that demostrate how to implement socketio with express",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon /api/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +21,8 @@
     "express": "^4.15.2",
     "mysql": "^2.13.0",
     "socket.io": "^1.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
