@@ -35,6 +35,18 @@ handleConnection.connect(config).then((connectionObject)=> {
             console.log(socket.userName + " is joined to "+socket.roomOfUser);
             socket.join(socket.roomOfUser);
         });
+
+        socket.on('newMessage', function (message) {
+            //console.log("newMessage " +message + " y el room es  "+socket.room );
+            console.log("new message '" +message + "' emitted from "+ socket.userName
+                + " to " +socket.roomOfUser );
+
+            socket.broadcast.to(socket.roomOfUser).emit('updateChat', {
+                userName: socket.userName,
+                message: message
+            });
+        });
+
     });
 }).catch((errorMessage)=> {
     console.log("no se puede iniciar el proyecto " + errorMessage);
