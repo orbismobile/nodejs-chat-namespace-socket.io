@@ -1,49 +1,28 @@
 CREATE TABLE USER
 (
-  id_user INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  user_name VARCHAR(50) NOT NULL
-);
-CREATE TABLE ROOM
-(
-  id_room INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  room_name VARCHAR(50) NOT NULL
+  userId INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  userName VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE FRIEND
 (
-  id_friend INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  friend_name VARCHAR(50) NOT NULL
+  friendId INT NOT NULL ,
+  userId INT NOT NULL,
+  CONSTRAINT FRIEND_USER_userId_fk FOREIGN KEY (friendId) REFERENCES USER (userId)
 );
 
-CREATE TABLE USER_FRIEND
-(
-  id_user INT NOT NULL,
-  id_friend INT NOT NULL,
-  CONSTRAINT USER_FRIEND_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user),
-  CONSTRAINT USER_FRIEND_FRIEND_id_friend_fk FOREIGN KEY (id_friend) REFERENCES FRIEND (id_friend)
-);
+INSERT INTO USER (userName) VALUES ('carlos');
+INSERT INTO USER (userName) VALUES ('ronaldo');
+INSERT INTO USER (userName) VALUES ('carlo');
+INSERT INTO USER (userName) VALUES ('ricardo');
+INSERT INTO USER (userName) VALUES ('jan');
 
-CREATE TABLE ROOM_USER
-(
-  id_room INT NOT NULL,
-  id_user INT NOT NULL,
-  CONSTRAINT ROOM_USER_ROOM_id_room_fk FOREIGN KEY (id_room) REFERENCES ROOM (id_room),
-  CONSTRAINT ROOM_USER_USER_id_user_fk FOREIGN KEY (id_user) REFERENCES USER (id_user)
-);
-
-
-INSERT INTO USER (user_name) VALUES ('carlos');
-INSERT INTO USER (user_name) VALUES ('ronaldo');
-
-INSERT INTO FRIEND (friend_name) VALUES ('eduardo');
-INSERT INTO FRIEND (friend_name) VALUES ('wallo');
-INSERT INTO FRIEND (friend_name) VALUES ('alexis');
-
-INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 1);
-INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 2);
-INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(1, 3);
-INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(2, 1);
-INSERT INTO USER_FRIEND(id_user, id_friend) VALUES(2, 2);
+INSERT INTO FRIEND (friendId, userId) VALUES (1, 2);
+INSERT INTO FRIEND (friendId, userId) VALUES (1, 3);
+INSERT INTO FRIEND (friendId, userId) VALUES (2, 1);
+INSERT INTO FRIEND (friendId, userId) VALUES (2, 3);
+INSERT INTO FRIEND (friendId, userId) VALUES (2, 4);
+INSERT INTO FRIEND (friendId, userId) VALUES (1, 4);
 
 /**********************************CRUD FOR USER*********************************/
 
@@ -52,7 +31,7 @@ DROP PROCEDURE IF EXISTS sp_PostUser;
 DELIMITER //
 CREATE PROCEDURE sp_PostUser(IN _userName VARCHAR(50))
   BEGIN
-    INSERT INTO USER (user_name)
+    INSERT INTO USER (userName)
     VALUES (_userName);
   END //
 DELIMITER ;
@@ -67,14 +46,24 @@ CREATE PROCEDURE sp_GetUser()
   END //
 DELIMITER ;
 
+#GET USER EXCEPT ITSELF
+DROP PROCEDURE IF EXISTS sp_GetUserExceptItself;
+DELIMITER //
+CREATE PROCEDURE sp_GetUserExceptItself(IN _userId INT)
+  BEGIN
+    SELECT *
+    FROM USER WHERE USER.userId != _userId;
+  END //
+DELIMITER ;
+
 #GET FRIEND BY USERID
 DROP PROCEDURE IF EXISTS sp_GetUserByNickname;
 DELIMITER //
 CREATE PROCEDURE sp_GetUserByNickname(IN _userName VARCHAR(50))
   BEGIN
-    SELECT id_user, user_name
+    SELECT userId, userName
     FROM USER
-    WHERE user_name = _userName;
+    WHERE userName = _userName;
   END //
 DELIMITER ;
 
@@ -83,32 +72,21 @@ DROP PROCEDURE IF EXISTS sp_GetFriendsByUserId;
 DELIMITER //
 CREATE PROCEDURE sp_GetFriendsByUserId(IN _userId INT)
   BEGIN
-    SELECT USER_FRIEND.id_user, FRIEND.friend_name
-    FROM USER_FRIEND
-      INNER JOIN FRIEND ON USER_FRIEND.id_friend = FRIEND.id_friend
-    WHERE USER_FRIEND.id_user = _userId;
+    SELECT FRIEND.userId, USER.userName FROM FRIEND
+      INNER JOIN USER ON FRIEND.friendId = USER.userId
+    WHERE friendId = _userId;
   END //
 DELIMITER ;
-
 
 /**********************************CRUD FOR FRIEND*********************************/
 
 #INSERT NEW FRIEND
 DROP PROCEDURE IF EXISTS sp_PostFriend;
 DELIMITER //
-CREATE PROCEDURE sp_PostFriend(IN _friendName VARCHAR(50))
+CREATE PROCEDURE sp_PostFriend(IN _friendId INT, IN _userId INT)
   BEGIN
-    INSERT INTO FRIEND (friend_name)
-    VALUES (_friendName);
-  END //
-DELIMITER ;
-
-#GET FRIEND
-DROP PROCEDURE IF EXISTS sp_GetFriend;
-DELIMITER //
-CREATE PROCEDURE sp_GetFriend()
-  BEGIN
-    SELECT * FROM FRIEND;
+    INSERT INTO FRIEND (friendId, userId)
+    VALUES (_friendId, _userId);
   END //
 DELIMITER ;
 
@@ -138,7 +116,4 @@ WHERE ROOM_USER.id_user = 1 AND (ROOM_USER.id_room != 1);
 SELECT USER_FRIEND.id_friend, USER_FRIEND.friend_name
 FROM USER_FRIEND
 WHERE USER_FRIEND.id_user = 1;*/
-
-
-
 

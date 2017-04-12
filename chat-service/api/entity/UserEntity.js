@@ -75,9 +75,9 @@ class UserEntity {
         });
     }
 
-    getFriendSByUserId(userID) {
+    getFriendsByUserId(userId) {
         return new Promise((resolve, reject)=> {
-            this.connection.query('CALL sp_GetFriendsByUserId(?);', [userID], function (err, rows, fields) {
+            this.connection.query('CALL sp_GetFriendsByUserId(?);', [userId], function (err, rows, fields) {
                 if (err) throw err;
                 var friendResponse = rows[0];
                 if (rows[0].length == 0) {
@@ -90,6 +90,27 @@ class UserEntity {
                         status: "SUCCESS",
                         message: "Friend were found",
                         data: friendResponse
+                    });
+                }
+            });
+        });
+    }
+
+    getUserExceptItself(userId){
+        return new Promise((resolve, reject)=> {
+            this.connection.query('CALL sp_GetUserExceptItself(?);', [userId], function (err, rows, fields) {
+                if (err) throw err;
+                var userResponse = rows[0];
+                if (rows[0].length == 0) {
+                    resolve({
+                        status: "ERROR",
+                        message: "There aren't users in database"
+                    });
+                } else {
+                    resolve({
+                        status: "SUCCESS",
+                        message: "Users were found",
+                        data: userResponse
                     });
                 }
             });

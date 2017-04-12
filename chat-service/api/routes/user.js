@@ -25,5 +25,10 @@ module.exports = (app, userEntity)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });
+    app.get('/user/:userId/globalfriends', (req, res, next)=> {
+        userEntity.getUserExceptItself(req.params.userId).then((objectResolved)=> {
+            res.status(200).send(objectResolved);
+        }).catch(next);
+    });
 };
 
