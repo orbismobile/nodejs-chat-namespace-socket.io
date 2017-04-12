@@ -16,7 +16,7 @@ module.exports = (app, userEntity)=> {
         }).catch(next);
     });
     app.get('/user/:userId/friends', (req, res, next)=> {
-        userEntity.getFriendSByUserId(req.params.userId).then((objectResolved)=> {
+        userEntity.getFriendsByUserId(req.params.userId).then((objectResolved)=> {
             res.status(200).send(objectResolved);
         }).catch(next);
     });

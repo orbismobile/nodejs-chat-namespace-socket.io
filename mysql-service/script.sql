@@ -17,12 +17,12 @@ INSERT INTO USER (userName) VALUES ('carlo');
 INSERT INTO USER (userName) VALUES ('ricardo');
 INSERT INTO USER (userName) VALUES ('jan');
 
-INSERT INTO FRIEND (friendId, userId) VALUES (1, 2);
-INSERT INTO FRIEND (friendId, userId) VALUES (1, 3);
 INSERT INTO FRIEND (friendId, userId) VALUES (2, 1);
-INSERT INTO FRIEND (friendId, userId) VALUES (2, 3);
-INSERT INTO FRIEND (friendId, userId) VALUES (2, 4);
-INSERT INTO FRIEND (friendId, userId) VALUES (1, 4);
+INSERT INTO FRIEND (friendId, userId) VALUES (3, 1);
+INSERT INTO FRIEND (friendId, userId) VALUES (1, 2);
+INSERT INTO FRIEND (friendId, userId) VALUES (3, 2);
+INSERT INTO FRIEND (friendId, userId) VALUES (4, 2);
+INSERT INTO FRIEND (friendId, userId) VALUES (4, 1);
 
 /**********************************CRUD FOR USER*********************************/
 
@@ -72,9 +72,9 @@ DROP PROCEDURE IF EXISTS sp_GetFriendsByUserId;
 DELIMITER //
 CREATE PROCEDURE sp_GetFriendsByUserId(IN _userId INT)
   BEGIN
-    SELECT FRIEND.userId, USER.userName FROM FRIEND
-      INNER JOIN USER ON FRIEND.friendId = USER.userId
-    WHERE friendId = _userId;
+    SELECT F.friendId, U.userName FROM FRIEND F
+      INNER JOIN USER U ON F.friendId = U.userId
+    WHERE F.userId = _userId;
   END //
 DELIMITER ;
 
