@@ -1,10 +1,14 @@
 FROM node:latest
 
+#COPY ./api /api
 ADD ./api /api
 
-RUN cd api; \
-    npm install;
+WORKDIR /api
+
+RUN npm install;
+
+RUN mkdir jose
 
 EXPOSE 8181
 
-CMD ["node","/api/app.js"]
+CMD ["npm","start"]
