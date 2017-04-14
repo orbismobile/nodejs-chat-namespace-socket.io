@@ -32,7 +32,7 @@ handleConnection.connect(config).then((connectionObject)=> {
      * @io.sockets Initial Default Namespace
      */
     io.sockets.on('connection', (socket)=> {
-        console.log("USER SORT CONNECTED_1");
+        console.log("USER SORT CONNECTED " + socket.id);
 
         /**
          *  @FirstArgument Your event's name
@@ -46,23 +46,47 @@ handleConnection.connect(config).then((connectionObject)=> {
             io.sockets.emit('onDNConnect', userName + " : " + message);
         });
 
-        socket.on('joinNewRoom', function (userName, roomOfUser) {
-            socket.userName = userName;
-            socket.roomOfUser = roomOfUser;
-            console.log(socket.userName + " is joined to " + socket.roomOfUser);
-            socket.join(socket.roomOfUser);
+        // socket.on('newMessage', function (userId, message) {
+        //     //console.log("newMessage " +message + " y el room es  "+socket.room );
+        //     console.log("new message '" + message + "' emitted from " + userName
+        //         + " to " + socket.id);
+        //     socket.broadcast.to(userId).emit('updateChat', {
+        //         userName: userName,
+        //         message: message
+        //     });
+        // });
 
-            socket.on('newMessage', function (userName, message) {
-                //console.log("newMessage " +message + " y el room es  "+socket.room );
-                console.log("new message '" + message + "' emitted from " + socket.userName
-                    + " to " + socket.roomOfUser);
-                socket.broadcast.to(socket.roomOfUser).emit('updateChat', {
-                    userName: userName,
-                    message: message
-                });
-            });
+
+        socket.on('joinOwnRoom', function (userId, friendId) {
+            console.log(userId + " is joined to " + userId + " itself and to " + friendId);
+            socket.join(userId);
+            socket.join(friendId);
+
+            // socket.userName = userName;
+            // socket.roomOfUser = roomOfUser;
+            // console.log(socket.userName + " is joined to " + socket.roomOfUser);
+            // socket.join(socket.roomOfUser);
+            //
+            // socket.on('newMessage', function (userName, message) {
+            //     //console.log("newMessage " +message + " y el room es  "+socket.room );
+            //     console.log("new message '" + message + "' emitted from " + socket.userName
+            //         + " to " + socket.roomOfUser);
+            //     socket.broadcast.to(socket.roomOfUser).emit('updateChat', {
+            //         userName: userName,
+            //         message: message
+            //     });
+            // });
         });
 
+        socket.on('newMessage', function (userName, friendId, message) {
+            //console.log("newMessage " +message + " y el room es  "+socket.room );
+            console.log("message: " + message + " emitted from " + userName
+                + " to " + friendId + " room");
+            socket.broadcast.to(friendId).emit('updateChat', {
+                userName: userName,
+                message: message
+            });
+        });
 
     });
 }).catch((errorMessage)=> {
