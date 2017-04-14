@@ -13,11 +13,7 @@ class UserEntity {
     addUser(userName) {
         let that = this;
         return new Promise((resolve, reject)=> {
-            console.log("carlos post " + this.connection);
-
             this.connection.beginTransaction(function (err) {
-
-                console.log("carlos2 " + that.connection);
                 if (err) {
                     throw err;
                 }
@@ -113,13 +109,14 @@ class UserEntity {
                 if (rows[0].length == 0) {
                     resolve({
                         status: "ERROR",
-                        message: "No existe cliente en Base de Datos"
+                        statusCode: 301,
+                        message: "This user has not friends"
                     });
                 } else {
-                    friendResponse.push({friendId: -1, userName : "mundiiii"})
-
+                    friendResponse.unshift({linkId: 0, friendId: 0, userName: "DefaultNamespace"})
                     resolve({
                         status: "SUCCESS",
+                        statusCode: 200,
                         message: "Friend were found",
                         data: friendResponse
                     });

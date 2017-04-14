@@ -46,23 +46,23 @@ handleConnection.connect(config).then((connectionObject)=> {
             io.sockets.emit('onDNConnect', userName + " : " + message);
         });
 
-        /*socket.on('joinNewRoom', function (userName, roomOfUser) {
-         socket.userName = userName;
-         socket.roomOfUser = roomOfUser;
-         console.log(socket.userName + " is joined to "+socket.roomOfUser);
-         socket.join(socket.roomOfUser);
-         });
+        socket.on('joinNewRoom', function (userName, roomOfUser) {
+            socket.userName = userName;
+            socket.roomOfUser = roomOfUser;
+            console.log(socket.userName + " is joined to " + socket.roomOfUser);
+            socket.join(socket.roomOfUser);
 
-         socket.on('newMessage', function (message) {
-         //console.log("newMessage " +message + " y el room es  "+socket.room );
-         console.log("new message '" +message + "' emitted from "+ socket.userName
-         + " to " +socket.roomOfUser );
+            socket.on('newMessage', function (userName, message) {
+                //console.log("newMessage " +message + " y el room es  "+socket.room );
+                console.log("new message '" + message + "' emitted from " + socket.userName
+                    + " to " + socket.roomOfUser);
+                socket.broadcast.to(socket.roomOfUser).emit('updateChat', {
+                    userName: userName,
+                    message: message
+                });
+            });
+        });
 
-         socket.broadcast.to(socket.roomOfUser).emit('updateChat', {
-         userName: socket.userName,
-         message: message
-         });
-         });*/
 
     });
 }).catch((errorMessage)=> {

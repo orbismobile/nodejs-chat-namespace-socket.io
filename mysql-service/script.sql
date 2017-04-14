@@ -6,6 +6,7 @@ CREATE TABLE USER
 
 CREATE TABLE FRIEND
 (
+  linkId INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   friendId INT NOT NULL ,
   userId INT NOT NULL,
   CONSTRAINT FRIEND_USER_userId_fk FOREIGN KEY (friendId) REFERENCES USER (userId)
@@ -72,7 +73,7 @@ DROP PROCEDURE IF EXISTS sp_GetFriendsByUserId;
 DELIMITER //
 CREATE PROCEDURE sp_GetFriendsByUserId(IN _userId INT)
   BEGIN
-    SELECT F.friendId, U.userName FROM FRIEND F
+    SELECT F.linkId, F.friendId, U.userName FROM FRIEND F
       INNER JOIN USER U ON F.friendId = U.userId
     WHERE F.userId = _userId;
   END //
