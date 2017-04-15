@@ -57,10 +57,9 @@ handleConnection.connect(config).then((connectionObject)=> {
         // });
 
 
-        socket.on('joinOwnRoom', function (userId, friendId) {
-            console.log(userId + " is joined to " + userId + " itself and to " + friendId);
-            socket.join(userId);
-            socket.join(friendId);
+        socket.on('joinOwnRoom', function (roomName) {
+            console.log("is joined to "+roomName);
+            socket.join(roomName);
 
             // socket.userName = userName;
             // socket.roomOfUser = roomOfUser;
@@ -78,11 +77,11 @@ handleConnection.connect(config).then((connectionObject)=> {
             // });
         });
 
-        socket.on('newMessage', function (userName, friendId, message) {
+        socket.on('newMessage', function (userName, message, roomName) {
             //console.log("newMessage " +message + " y el room es  "+socket.room );
             console.log("message: " + message + " emitted from " + userName
-                + " to " + friendId + " room");
-            socket.broadcast.to(friendId).emit('updateChat', {
+                + " to " + roomName);
+            socket.broadcast.to(roomName).emit('updateChat', {
                 userName: userName,
                 message: message
             });
