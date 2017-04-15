@@ -11,6 +11,7 @@ const handleConnection = require("./config/handleConnection");
 
 const UserEntity = require("./entity/UserEntity");
 const FriendEntity = require("./entity/FriendEntity");
+const GroupsEntity = require("./entity/GroupsEntity");
 const io = new Server(httpServer, {serverClient: false});
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -26,6 +27,7 @@ handleConnection.connect(config).then((connectionObject)=> {
     let friendEntity = FriendEntity.createFriend(connectionObject);
     require("./routes/user")(app, userEntity);
     require("./routes/friend")(app, friendEntity);
+    require("./routes/group")(app, GroupsEntity);
 
 
     /**
@@ -38,7 +40,7 @@ handleConnection.connect(config).then((connectionObject)=> {
          *  @FirstArgument Your event's name
          *  @SecondArgument Emmit a message to everyone in this NameSpace
          */
-        io.sockets.emit('onDNConnect', "someone has connected");
+        //io.sockets.emit('onDNConnect', "someone has connected");
 
         socket.on('onMessageToDNEmitted', function (userName, message) {
             socket.userName = userName;

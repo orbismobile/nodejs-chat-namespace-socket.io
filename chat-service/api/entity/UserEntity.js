@@ -34,11 +34,13 @@ class UserEntity {
                             if (result.affectedRows == 1) {
                                 resolve({
                                     status: "SUCCESS",
+                                    statusCode: 201,
                                     message: "User added successful"
                                 });
                             } else {
                                 resolve({
                                     status: "ERROR",
+                                    statusCode: 404,
                                     message: "An error happened"
                                 });
                             }
@@ -47,6 +49,7 @@ class UserEntity {
                     } else {
                         resolve({
                             status: "SUCCESS",
+                            statusCode: 301,
                             message: "User already exist "
                         });
 
@@ -67,11 +70,13 @@ class UserEntity {
                 if (rows[0].length == 0) {
                     resolve({
                         status: "ERROR",
+                        statusCode: 404,
                         message: "There's not user in CHAT_DEMO database"
                     });
                 } else {
                     resolve({
                         status: "SUCCESS",
+                        statusCode: 200,
                         message: "User was found",
                         data: userResponse
                     });
@@ -88,11 +93,13 @@ class UserEntity {
                 if (rows[0].length == 0) {
                     resolve({
                         status: "ERROR",
+                        statusCode: 404,
                         message: "No existe producto en Base de Datos"
                     });
                 } else {
                     resolve({
                         status: "SUCCESS",
+                        statusCode: 200,
                         message: "User was found",
                         data: userResponse
                     });
@@ -133,11 +140,13 @@ class UserEntity {
                 if (rows[0].length == 0) {
                     resolve({
                         status: "ERROR",
+                        statusCode: 404,
                         message: "There aren't users in database"
                     });
                 } else {
                     resolve({
                         status: "SUCCESS",
+                        statusCode: 200,
                         message: "Users were found",
                         data: userResponse
                     });

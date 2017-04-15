@@ -7,7 +7,7 @@
 module.exports = (app, userEntity)=> {
     app.post('/friend', (req, res, next)=> {
         userEntity.addFriend(req.body.friendId, req.body.userId).then((objectResolved)=> {
-            res.status(200).send(objectResolved);
+            res.status(objectResolved.statusCode).send(objectResolved);
         }).catch(next);
     });
 };

@@ -31,11 +31,13 @@ class FriendEntity {
                             if (result.affectedRows == 1) {
                                 resolve({
                                     status: "SUCCESS",
+                                    statusCode: 201,
                                     message: "Friend inserted successful"
                                 });
                             } else {
                                 resolve({
                                     status: "ERROR",
+                                    statusCode: 404,
                                     message: "An error happened"
                                 });
                             }
@@ -44,6 +46,7 @@ class FriendEntity {
                     } else {
                         resolve({
                             status: "SUCCESS",
+                            statusCode: 301,
                             message: "You already have added this user"
                         });
                     }
