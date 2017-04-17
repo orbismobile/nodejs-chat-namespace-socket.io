@@ -25,9 +25,11 @@ handleConnection.connect(config).then((connectionObject)=> {
 
     let userEntity = UserEntity.createUser(connectionObject);
     let friendEntity = FriendEntity.createFriend(connectionObject);
+    let groupsEntity = GroupsEntity.createGroup(connectionObject);
+
     require("./routes/user")(app, userEntity);
     require("./routes/friend")(app, friendEntity);
-    require("./routes/group")(app, GroupsEntity);
+    require("./routes/group")(app, groupsEntity);
 
 
     /**

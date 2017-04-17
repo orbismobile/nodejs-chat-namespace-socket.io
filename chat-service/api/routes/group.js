@@ -9,7 +9,7 @@ module.exports = (app, groupsEntity)=> {
         }).catch(next);
     });
     app.post('/group', (req, res, next)=> {
-        groupsEntity.postGroupByUserId(req.body.userId).then((objectResolved)=> {
+        groupsEntity.postGroupByUserId(req.body.groupName, req.body.userId, req.body.friendIds).then((objectResolved)=> {
             res.status(objectResolved.statusCode).send(objectResolved);
         }).catch(next);
     });

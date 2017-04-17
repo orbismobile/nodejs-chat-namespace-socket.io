@@ -142,13 +142,22 @@ CREATE PROCEDURE sp_GetGroupsByUserId(IN _userId INT)
 DELIMITER ;
 
 #POST GROUPS BY USERID
-DROP PROCEDURE IF EXISTS sp_PostGroupByUserId;
+DROP PROCEDURE IF EXISTS sp_PostGroupHeader;
 DELIMITER //
-CREATE PROCEDURE sp_PostGroupByUserId(IN _groupName VARCHAR(50), IN _userId INT)
+CREATE PROCEDURE sp_PostGroupHeader(IN _groupName VARCHAR(50), IN _userId INT)
   BEGIN
     INSERT INTO GROUPS_HEADER (groupName, userId) VALUES (_groupName, _userId);
   END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_PostGroupDetail;
+DELIMITER //
+CREATE PROCEDURE sp_PostGroupDetail(IN _groupId VARCHAR(50), IN _friendId INT)
+  BEGIN
+    INSERT INTO GROUPS_DETAIL (groupId, friendId) VALUES (_groupId, _friendId);
+  END //
+DELIMITER ;
+
 
 #GET GROUP MEMBERS
 DROP PROCEDURE IF EXISTS sp_GetGroupMembersByGroupId;
