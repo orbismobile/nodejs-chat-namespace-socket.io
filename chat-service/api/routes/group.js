@@ -18,4 +18,6 @@ module.exports = (app, groupsEntity)=> {
             res.status(objectResolved.statusCode).send(objectResolved);
         }).catch(next);
     });
+
+
 };
