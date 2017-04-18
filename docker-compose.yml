@@ -9,7 +9,7 @@ services:
     environment:
       - DATABASE_HOST=db
     volumes:
-      - /home/carlos/Documents/PhpStormProjects/nodejs-chat-namespace-socket.io/chat-service/api:/api
+      - ./chat-service/api:/api
   db:
     build: ./mysql-service
     ports:
