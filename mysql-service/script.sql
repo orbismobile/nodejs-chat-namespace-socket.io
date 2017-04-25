@@ -29,19 +29,6 @@ CREATE TABLE GROUPS_DETAIL
 CREATE INDEX GROUPS_DETAIL_GROUPS_HEADER_groupId_fk
   ON CHAT_DEMO.GROUPS_DETAIL (groupId);
 
-INSERT INTO USER (userName) VALUES ('carlos');
-INSERT INTO USER (userName) VALUES ('ronaldo');
-INSERT INTO USER (userName) VALUES ('carlo');
-INSERT INTO USER (userName) VALUES ('ricardo');
-INSERT INTO USER (userName) VALUES ('jan');
-
-INSERT INTO FRIEND (friendId, userId) VALUES (2, 1);
-INSERT INTO FRIEND (friendId, userId) VALUES (3, 1);
-INSERT INTO FRIEND (friendId, userId) VALUES (1, 2);
-INSERT INTO FRIEND (friendId, userId) VALUES (3, 2);
-INSERT INTO FRIEND (friendId, userId) VALUES (4, 2);
-INSERT INTO FRIEND (friendId, userId) VALUES (4, 1);
-
 /**********************************CRUD FOR USER*********************************/
 
 #INSERT NEW USER
