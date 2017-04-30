@@ -81,6 +81,11 @@ handleConnection.connect(config).then((connectionObject)=> {
             // });
         });
 
+        socket.on('joinGroup', function (roomName) {
+            console.log("is joined to "+roomName);
+            socket.join(roomName);
+        });
+
         socket.on('newMessage', function (userName, message, roomName) {
             //console.log("newMessage " +message + " y el room es  "+socket.room );
             console.log("message: " + message + " emitted from " + userName
